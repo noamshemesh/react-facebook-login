@@ -19,6 +19,7 @@ class FacebookLogin extends React.Component {
     icon: PropTypes.string,
     language: PropTypes.string,
     loadFA: PropTypes.bool,
+    windowFbExport: PropTypes.func,
   };
 
   static defaultProps = {
@@ -40,7 +41,7 @@ class FacebookLogin extends React.Component {
   }
 
   componentDidMount() {
-    const { appId, xfbml, cookie, version, autoLoad, language } = this.props;
+    const { appId, xfbml, cookie, version, autoLoad, language, windowFbExport } = this.props;
     const fbRoot = document.createElement('div');
     fbRoot.id = 'fb-root';
 
@@ -56,6 +57,10 @@ class FacebookLogin extends React.Component {
 
       if (autoLoad || window.location.search.includes('facebookdirect')) {
         window.FB.getLoginStatus(this.checkLoginState);
+      }
+
+      if (windowFbExport) {
+        windowFbExport(window.FB);
       }
     };
     // Load the SDK asynchronously
